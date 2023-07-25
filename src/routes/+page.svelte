@@ -1,12 +1,15 @@
 <script lang="ts">
 	import Canvas from '../components/Canvas.svelte';
-	import Picker from 'vanilla-picker';
 	import { saveAs } from 'file-saver';
 	import { copyImageToClipboard } from 'copy-image-clipboard';
 	import * as htmlToImage from 'html-to-image';
 	import { onMount } from 'svelte';
 	import { Facebook, Twitter } from 'svelte-share-buttons-component';
 	import * as base64 from 'base64util';
+	import dayjs from 'dayjs';
+	import duration, { type Duration } from 'dayjs/plugin/duration';
+
+	dayjs.extend(duration);
 
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
@@ -20,27 +23,15 @@
 		}
 	});
 
-	let text: string = decodedData[0] || `${new Date().getMonth() + 1}`;
+	let text: string = decodedData[0] || `......`;
 	let color: string = decodedData[1] || '#ff7300';
-	let pickerRef: HTMLButtonElement;
 	let imageDom: HTMLElement;
 
 	$: ogImageUrl = `https://senator-countdown.vercel.app/i?t=${text}`;
-	$: encodedData = `${base64.urlEncode(text)},${base64.urlEncode(color)}`;
-	$: shareUrl = `https://senator-countdown.vercel.app?d=${encodedData}`;
+	$: shareUrl = `https://senator-countdown.vercel.app`;
 
 	onMount(() => {
-		if (browser) {
-			const picker = new Picker({
-				parent: pickerRef,
-				color: color,
-				alpha: false
-			});
-
-			picker.onChange = (pickedColor) => {
-				color = pickedColor.hex.substring(0, 7);
-			};
-		}
+		setInterval(updateTimer, 1000);
 	});
 
 	function copyImage() {
@@ -73,6 +64,22 @@
 	// OG
 	const title = 'Senator Countdown';
 	const description = '=นับถอยหลัง สว==';
+
+	// Countdown
+	const targetDate = dayjs('2024-05-11');
+
+	let countdown: Duration;
+
+	// Update the countdown timer every second
+	function updateTimer() {
+		const currentDate = dayjs();
+		const timeDifference = targetDate.diff(currentDate);
+		countdown = dayjs.duration(timeDifference);
+	}
+
+	$: if (countdown) {
+		text = String(Math.ceil(countdown.asDays()));
+	}
 </script>
 
 <svelte:head>
@@ -99,6 +106,19 @@
 		</div>
 	</h1>
 
+	<!-- Show time in days, hours:minute:seconds -->
+	<div class="text-3xl mt-4">
+		{#if countdown}
+			อีก {Math.floor(countdown.asDays())} วัน {countdown.hours()} ชั่วโมง {countdown.minutes()} นาที
+			{countdown.seconds()}
+			วินาที
+		{:else}
+			Loading
+		{/if}
+	</div>
+
+	<Canvas bind:color bind:text bind:imageDom />
+
 	<div class="flex gap-4">
 		<button
 			on:click={() => copyImage()}
@@ -114,22 +134,20 @@
 		</button>
 	</div>
 
-	<div class="flex items-center justify-center text-black">
-		<input
-			type="text"
-			bind:value={text}
-			placeholder="เดือน (?)"
-			class="text-center rounded p-2 text-xl"
-		/>
-	</div>
-
 	<div class="flex gap-2 justify-center items-center w-full bottom-4 center">
 		<span class="text-lg"> Share: </span>
-		<Facebook class="h-10 w-10 rounded" url={shareUrl} text="สร้างสติ๊กเกอร์ของคุณได้ที่นี่" />
-		<Twitter class="h-10 w-10 rounded" url={shareUrl} text="สร้างสติ๊กเกอร์ของคุณได้ที่นี่" />
+		<Facebook class="h-10 w-10 rounded" url={shareUrl} text="" />
+		<Twitter class="h-10 w-10 rounded" url={shareUrl} text="" />
 	</div>
 
-	<Canvas bind:color bind:text bind:imageDom />
+	<div>
+		เครดิตภาพ <a
+			class="text-blue-500 hover:underline"
+			target="_blank"
+			href="https://www.facebook.com/wirojlak/posts/pfbid02hE2YENA48P2skBJmoF1UzYcos4VcfPfSLBn47jPbAhut5LQWyHU2eC6Du5BRdMbzl"
+			>Facebook: วิโรจน์ ลักขณาอดิศร</a
+		>
+	</div>
 </div>
 
 <style lang="postcss">

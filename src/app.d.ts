@@ -9,4 +9,6 @@ declare global {
 	}
 }
 
-export {};
+declare module 'svelte-share-buttons-component';
+
+// export {};
