@@ -25,7 +25,7 @@
 	let text: string = decodedData[0] || ``;
 	let imageDom: HTMLElement;
 
-	$: ogImageUrl = `https://senator-countdown.vercel.app/i?t=${text}`;
+	$: ogImageUrl = `https://senator-countdown.vercel.app/i`;
 	$: shareUrl = `https://senator-countdown.vercel.app`;
 
 	onMount(() => {
