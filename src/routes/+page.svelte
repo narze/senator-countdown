@@ -11,7 +11,6 @@
 
 	dayjs.extend(duration);
 
-	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 
 	let data = $page.url.searchParams.get('d') || '';
@@ -35,7 +34,8 @@
 
 	function copyImage() {
 		htmlToImage
-			.toPng(imageDom)
+			.toJpeg(imageDom, { canvasWidth: 600, canvasHeight: 600, pixelRatio: 1 })
+
 			.then(function (dataUrl) {
 				const img = new Image();
 				img.src = dataUrl;
@@ -50,9 +50,9 @@
 
 	function saveImage() {
 		htmlToImage
-			.toPng(imageDom)
+			.toJpeg(imageDom, { canvasWidth: 600, canvasHeight: 600, pixelRatio: 1 })
 			.then(function (blob) {
-				saveAs(blob, `senator-countdown.png`);
+				saveAs(blob, `senator-countdown-${text}.jpg`);
 				// saving = false
 			})
 			.catch(function (error) {
@@ -121,12 +121,14 @@
 	<div class="flex gap-4">
 		<button
 			on:click={() => copyImage()}
+			disabled={!text.length}
 			class="bg-blue-500 hover: text-white font-bold py-2 px-4 rounded"
 		>
 			ก็อปภาพ
 		</button>
 		<button
 			on:click={() => saveImage()}
+			disabled={!text.length}
 			class="bg-blue-500 hover: text-white font-bold py-2 px-4 rounded"
 		>
 			เซฟภาพ
