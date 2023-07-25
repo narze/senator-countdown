@@ -23,8 +23,7 @@
 		}
 	});
 
-	let text: string = decodedData[0] || `......`;
-	let color: string = decodedData[1] || '#ff7300';
+	let text: string = decodedData[0] || ``;
 	let imageDom: HTMLElement;
 
 	$: ogImageUrl = `https://senator-countdown.vercel.app/i?t=${text}`;
@@ -117,7 +116,7 @@
 		{/if}
 	</div>
 
-	<Canvas bind:color bind:text bind:imageDom />
+	<Canvas bind:text bind:imageDom />
 
 	<div class="flex gap-4">
 		<button
@@ -140,12 +139,22 @@
 		<Twitter class="h-10 w-10 rounded" url={shareUrl} text="" />
 	</div>
 
-	<div>
-		เครดิตภาพ <a
+	<div class="flex gap-2">
+		<span
+			>เครดิตภาพ <a
+				class="text-blue-500 hover:underline"
+				target="_blank"
+				href="https://www.facebook.com/wirojlak/posts/pfbid02hE2YENA48P2skBJmoF1UzYcos4VcfPfSLBn47jPbAhut5LQWyHU2eC6Du5BRdMbzl"
+				>Facebook: วิโรจน์ ลักขณาอดิศร</a
+			></span
+		>
+
+		<span>|</span>
+
+		<a
 			class="text-blue-500 hover:underline"
 			target="_blank"
-			href="https://www.facebook.com/wirojlak/posts/pfbid02hE2YENA48P2skBJmoF1UzYcos4VcfPfSLBn47jPbAhut5LQWyHU2eC6Du5BRdMbzl"
-			>Facebook: วิโรจน์ ลักขณาอดิศร</a
+			href="https://github.com/narze/senator-countdown">Source Code</a
 		>
 	</div>
 </div>
