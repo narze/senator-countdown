@@ -40,9 +40,6 @@ devDependencies:
   base64util:
     specifier: ^2.2.0
     version: 2.2.0
-  copy-image-clipboard:
-    specifier: ^2.1.2
-    version: 2.1.2
   eslint:
     specifier: ^8.28.0
     version: 8.41.0
@@ -1038,10 +1035,6 @@ packages:
   /cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
     engines: {node: '>= 0.6'}
-    dev: true
-
-  /copy-image-clipboard@2.1.2:
-    resolution: {integrity: sha512-3VCXVl2IpFfOyD8drv9DozcNlwmqBqxOlsgkEGyVAzadjlPk1go8YNZyy8QmTnwHPxSFpeCR9OdsStEdVK7qDA==}
     dev: true
 
   /cross-spawn@7.0.3:

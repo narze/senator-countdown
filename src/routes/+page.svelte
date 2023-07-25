@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Canvas from '../components/Canvas.svelte';
 	import { saveAs } from 'file-saver';
-	import { copyImageToClipboard } from 'copy-image-clipboard';
+	import { copyImageToClipboard } from '$lib/copy-image-clipboard';
 	import * as htmlToImage from 'html-to-image';
 	import { onMount } from 'svelte';
 	import { Facebook, Twitter } from 'svelte-share-buttons-component';
@@ -25,7 +25,7 @@
 	let text: string = decodedData[0] || ``;
 	let imageDom: HTMLElement;
 
-	$: ogImageUrl = `https://senator-countdown.vercel.app/images/og.jpg`;
+	$: ogImageUrl = `https://senator-countdown.vercel.app/i?t=${text}`;
 	$: shareUrl = `https://senator-countdown.vercel.app`;
 
 	onMount(() => {
